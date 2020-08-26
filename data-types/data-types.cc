@@ -69,9 +69,23 @@ void MathOpsObject(const FunctionCallbackInfo<Value> &args) {
 	args.GetReturnValue().Set(obj);
 }
 
+void incrementArray(const FunctionCallbackInfo<Value> &args) {
+	Isolate *isolate = args.GetIsolate();
+	Local<Context> ctx = isolate->GetCurrentContext();
+	Local<Array> arr = Local<Array>::Cast(args[0]);
+
+	for (uint32_t i = 0; i < arr->Length(); i++) {
+		if (arr->Has(ctx, i).ToChecked()) {
+			double value = arr->Get(ctx, i).ToLocalChecked()->NumberValue(isolate->GetCurrentContext()).ToChecked();
+			arr->Set(ctx, i, Number::New(isolate, value + 1)).ToChecked();
+		}
+	}
+}
+
 void Init(Local<Object> exports) {
 	NODE_SET_METHOD(exports, "incNumber", IncNumber);
 	NODE_SET_METHOD(exports, "incInteger", IncInteger);
+	NODE_SET_METHOD(exports, "incArray", incrementArray);
 	NODE_SET_METHOD(exports, "negateBool", NegateBoolean);
 	NODE_SET_METHOD(exports, "reverseString", ReverseString);
 	NODE_SET_METHOD(exports, "modifyObject", ModifyObject);

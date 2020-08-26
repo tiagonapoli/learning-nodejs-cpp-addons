@@ -17,3 +17,7 @@ console.log("modifyObject:", mod.modifyObject({ y: 20 }));
 
 console.log("mathOps:", mod.mathOpsObject({ x: 10, y: 20 }));
 console.log("mathOps:", mod.mathOpsObject({ x: 30 }));
+
+const arr = [null, 1, 2, 3, "4", "5", "hello", , ,];
+mod.incArray(arr);
+console.log("incArray: ", arr);
